@@ -32,7 +32,6 @@ class Graph:
             node2.change_id(node2_id)
             self.m_nodes.add(node2)
             self.m_graph[node2_name] = set()
-        print("Adding ", node1_name, node2_name)
         self.m_graph[node1_name].add((node2, weight))
 
         if not self.m_directed:
@@ -84,8 +83,12 @@ class Graph:
     def __str__(self):
         out = ""
         for key in self.m_graph.keys():
+            # TODO:
             out += "node " + str(key) + ": " +  str(self.m_graph[key]) + "\n"
         return out
+
+    def get_nodes(self):
+        return self.m_nodes
     
     ###################################
     # DFS Search
@@ -178,5 +181,7 @@ edge_list = [
 ]
 # g.load_from_dict(adjacency_list)
 g.load_from_edge_list(edge_list)
+for node in g.get_nodes():
+    print(node)
 print(g)
 
