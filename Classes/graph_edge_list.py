@@ -1,5 +1,7 @@
 from node import Node
-class Graph:
+from graph import Graph
+
+class EdgeListGraph(Graph):
     ###################################
     # Constructor
     ###################################
@@ -55,6 +57,9 @@ class Graph:
             out += "edge " + str(i+1) + ": " + str(self.m_graph[i]) + "\n"
         return out
     
+    ###################################
+    # Find node in a graph using its name
+    ###################################
     def get_node_by_name(self, name):
         search_node = Node(name)
         for node in self.m_nodes:
@@ -99,9 +104,7 @@ class Graph:
         # Add zero to the `subtree_sizes` array
         # => initialize `parent` and `subtree_sizes`
         for node in self.m_nodes:
-            print(str(node) + " id is " + str(node.get_id()))
             parent[node.get_id()] = node
-            # subtree_sizes.append(0)
 
         # Sort edges by weight
         sorted_graph = sorted(self.m_graph, key=lambda item: item[2])
@@ -110,10 +113,8 @@ class Graph:
         # the number of edges is equal to the number of nodes minus 1
         while e < (self.m_num_of_nodes - 1):
             # Pick an edge with the minimum weight at the moment
-            # print(str(i) + ": " + str(sorted_graph[i]))
             node1, node2, weight = sorted_graph[i]
             i = i + 1
-            print(node1, node1.get_id())
             x = self.find_subtree(parent, node1)
             y = self.find_subtree(parent, node2)
             if x != y:
@@ -159,8 +160,8 @@ class Graph:
 
         cheapest_edge = [-1] * self.m_num_of_nodes
 
-        for vertex in range(self.m_num_of_nodes):
-            self.m_components.update({vertex : vertex})
+        for node in self.m_nodes:
+            self.m_components.update({node.get_name() : vertex})
             component_size.append(1)
 
         num_of_components = self.m_num_of_nodes
@@ -207,11 +208,6 @@ class Graph:
         print("The weight of MST is " + str(mst_weight))
 
 
-    
-    
-
-
-
 # graph = Graph(5)
 
 # graph.add_edge('A', 'A', 25)
@@ -230,26 +226,67 @@ class Graph:
 # graph.add_edge(4, 2, 7)
 # graph.add_edge(4, 3, 11)
 
-graph = Graph(9)
-graph.add_edge("A", "B", 4)
-graph.add_edge("A", "C", 7)
-graph.add_edge("B", "C", 11)
-graph.add_edge("B", "D", 9)
-graph.add_edge("B", "F", 20)
-graph.add_edge("C", "F", 1)
-graph.add_edge("D", "G", 6)
-graph.add_edge("D", "E", 2)
-graph.add_edge("E", "G", 10)
-graph.add_edge("E", "I", 15)
-graph.add_edge("E", "H", 5)
-graph.add_edge("E", "F", 1)
-graph.add_edge("F", "H", 3)
-graph.add_edge("G", "I", 5)
-graph.add_edge("H", "I", 12)
+###################################
+# Kruskal qith letter nodes
+#
+# graph = EdgeListGraph(9)
+#
+# graph.add_edge("A", "B", 4)
+# graph.add_edge("A", "C", 7)
+# graph.add_edge("B", "C", 11)
+# graph.add_edge("B", "D", 9)
+# graph.add_edge("B", "F", 20)
+# graph.add_edge("C", "F", 1)
+# graph.add_edge("D", "G", 6)
+# graph.add_edge("D", "E", 2)
+# graph.add_edge("E", "G", 10)
+# graph.add_edge("E", "I", 15)
+# graph.add_edge("E", "H", 5)
+# graph.add_edge("E", "F", 1)
+# graph.add_edge("F", "H", 3)
+# graph.add_edge("G", "I", 5)
+# graph.add_edge("H", "I", 12)
+#
+# graph.kruskals_mst()
+###################################
 
+###################################
+# Kruskal qith letter nodes
+#
+# graph = EdgeListGraph(9)
 
-# print(graph)
+# graph.add_edge(0, 1, 4)
+# graph.add_edge(0, 2, 7)
+# graph.add_edge(1, 2, 11)
+# graph.add_edge(1, 3, 9)
+# graph.add_edge(1, 5, 20)
+# graph.add_edge(2, 5, 1)
+# graph.add_edge(3, 6, 6)
+# graph.add_edge(3, 4, 2)
+# graph.add_edge(4, 6, 10)
+# graph.add_edge(4, 8, 15)
+# graph.add_edge(4, 7, 5)
+# graph.add_edge(4, 5, 1)
+# graph.add_edge(5, 7, 3)
+# graph.add_edge(6, 8, 5)
+# graph.add_edge(7, 8, 12)
+#
+# graph.kruskals_mst()
+###################################
 
-graph.kruskals_mst()
+g = EdgeListGraph(9)
+g.add_edge(0, 1, 4)
+g.add_edge(0, 6, 7)
+g.add_edge(1, 6, 11)
+g.add_edge(1, 7, 20)
+g.add_edge(1, 2, 9)
+g.add_edge(2, 3, 6)
+g.add_edge(2, 4, 2)
+g.add_edge(3, 4, 10)
+g.add_edge(3, 5, 5)
+g.add_edge(4, 5, 15)
+g.add_edge(4, 7, 1)
+g.add_edge(4, 8, 5)
+g.add_edge(5, 8, 12)
 
-
+g.boruvkas_mst()

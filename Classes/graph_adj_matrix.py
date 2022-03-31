@@ -6,7 +6,7 @@ class Graph:
         self.m_num_of_nodes = num_of_nodes
         self.m_directed = directed
 
-        # Different representations of a graph
+        # A representation of a graph
         # i.e. adjacency matrix
         self.m_graph = [[0 for column in range(num_of_nodes)] 
                             for row in range(num_of_nodes)]

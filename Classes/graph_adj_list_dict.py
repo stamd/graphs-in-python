@@ -1,18 +1,17 @@
 from node import Node
+from graph import Graph
 from queue import Queue
 
-class Graph:
+class AdjListGraph(Graph):
     ###################################
     # Constructor
     ###################################
     def __init__(self, num_of_nodes, directed=True):
         self.m_num_of_nodes = num_of_nodes
-        # self.m_nodes = range(self.m_num_of_nodes)
-        self.m_nodes = set()
+        self.m_nodes = []
 
         self.m_directed = directed
 
-        # self.m_graph = {node: set() for node in self.m_nodes}  
         self.m_graph = {}    
 
     ###################################
@@ -23,20 +22,34 @@ class Graph:
         node2 = Node(node2_name)
         if (node1 not in self.m_nodes):
             node1_id = len(self.m_nodes)
-            node1.change_id(node1_id)
+            node1.set_id(node1_id)
             self.m_nodes.add(node1)
             self.m_graph[node1_name] = set()
+        else:
+            node1 = self.get_node_by_name(node1_name)
         
         if (node2 not in self.m_nodes):
             node2_id = len(self.m_nodes)
-            node2.change_id(node2_id)
+            node2.set_id(node2_id)
             self.m_nodes.add(node2)
             self.m_graph[node2_name] = set()
+        else:
+            node2= self.get_node_by_name(node2_name)
+
         self.m_graph[node1_name].add((node2, weight))
 
         if not self.m_directed:
             self.m_graph[node2_name].add((node1, weight))
 
+    ###################################
+    # Find node in a graph using its name
+    ###################################
+    def get_node_by_name(self, name):
+        search_node = Node(name)
+        for node in self.m_nodes:
+            if node == search_node:
+                return node 
+        return None
 
     ###################################
     # Load a graph from a dictionary
@@ -83,7 +96,6 @@ class Graph:
     def __str__(self):
         out = ""
         for key in self.m_graph.keys():
-            # TODO:
             out += "node " + str(key) + ": " +  str(self.m_graph[key]) + "\n"
         return out
 
@@ -164,7 +176,7 @@ class Graph:
                     queue.put(next_node)
                     visited.add(next_node)  
 
-g = Graph(5)
+g = AdjListGraph(5)
 adjacency_list = {
     'A': [('B', 1), ('C', 3), ('D', 7)],
     'B': [('D', 5)],
