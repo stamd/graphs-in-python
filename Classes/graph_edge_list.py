@@ -1,24 +1,42 @@
+from node import Node
 class Graph:
     ###################################
     # Constructor
     ###################################
     def __init__(self, num_of_nodes, directed=True):
         self.m_num_of_nodes = num_of_nodes
+        self.m_nodes = []
 
         # Define the type of a graph
         self.m_directed = directed
 
-        # Different representations of a graph
+        # A representation of a graph
         # i.e. list of edges
         self.m_graph = []
 
-        # For Bovurkas
+        # For Bovurka's algorithm
         self.m_components = {}
 
     ###################################
     # Add edge to a graph
     ###################################
-    def add_edge(self, node1, node2, weight=1):        
+    def add_edge(self, node1_name, node2_name, weight=1):
+        node1 = Node(node1_name)
+        node2 = Node(node2_name)       
+        if (node1 not in self.m_nodes):
+            node1_id = len(self.m_nodes)
+            node1.set_id(node1_id)
+            self.m_nodes.append(node1)
+        else:
+            node1 = self.get_node_by_name(node1_name)
+        
+        if (node2 not in self.m_nodes):
+            node2_id = len(self.m_nodes)
+            node2.set_id(node2_id)
+            self.m_nodes.append(node2)
+        else:
+            node2 = self.get_node_by_name(node2_name)
+
         # Add the edge from node1 to node2
         self.m_graph.append([node1, node2, weight])
         
@@ -37,91 +55,99 @@ class Graph:
             out += "edge " + str(i+1) + ": " + str(self.m_graph[i]) + "\n"
         return out
     
+    def get_node_by_name(self, name):
+        search_node = Node(name)
+        for node in self.m_nodes:
+            if node == search_node:
+                return node 
+        return None
+        
     ################################### 
     # Kruskal's MST Algorithm
-    #### za sada radi samo sa numbered nodes
     ###################################
-    # Finds the root node of a subtree containing node `i`
-    def find_subtree(self, parent, i):
-        if parent[i] == i:
-            return i
-        return self.find_subtree(parent, parent[i])
+    # Finds the root node of a subtree containing node `node`
+    def find_subtree(self, parent, node):
+        if parent[node.get_id()] == node:
+            return node
+        return self.find_subtree(parent, parent[node.get_id()])
 
-    # Connects subtrees containing nodes `x` and `y`
-    def connect_subtrees(self, parent, subtree_sizes, x, y):
-        x_root = self.find_subtree(parent, x)
-        y_root = self.find_subtree(parent, y)
-        if subtree_sizes[x_root] < subtree_sizes[y_root]:
-            parent[x_root] = y_root
-        elif subtree_sizes[x_root] > subtree_sizes[y_root]:
-            parent[y_root] = x_root
+    # Connects subtrees containing nodes `node1` and `node2`
+    def connect_subtrees(self, parent, subtree_sizes, node1, node2):
+        node1_root = self.find_subtree(parent, node1)
+        node1_root_id = node1_root.get_id()
+        node2_root = self.find_subtree(parent, node2)
+        node2_root_id = node2_root.get_id()
+
+        if subtree_sizes[node1_root_id] < subtree_sizes[node2_root_id]:
+            parent[node1_root_id] = node2_root
+        elif subtree_sizes[node1_root_id] > subtree_sizes[node2_root_id]:
+            parent[node2_root_id] = node1_root
         else:
-            parent[y_root] = x_root
-            subtree_sizes[x_root] += 1
+            parent[node2_root_id] = node1_root
+            subtree_sizes[node1_root_id] += 1
 
     #  Applying Kruskal algorithm
     def kruskals_mst(self):
         result = []
         i, e = 0, 0
 
+        parent = [-1 for i in range(self.m_num_of_nodes)]
+        subtree_sizes = [0 for i in range(self.m_num_of_nodes)]
+
+        # `node` is the number form 0 to num_of_nodes -> {0, 1, ..., num_of_nodes-1}
+        # Add that number to the `parent` array
+        # Add zero to the `subtree_sizes` array
+        # => initialize `parent` and `subtree_sizes`
+        for node in self.m_nodes:
+            print(str(node) + " id is " + str(node.get_id()))
+            parent[node.get_id()] = node
+            # subtree_sizes.append(0)
+
         # Sort edges by weight
         sorted_graph = sorted(self.m_graph, key=lambda item: item[2])
-        parent = []
-        subtree_sizes = []
-
-        # `node` je broj od 0 do numOfNodes -> {0, 1, ..., numOfNodes-1}
-        # dodajemo tu vrednost na `parent` niz
-        # dodajemo nulu na `subtree_sizes`
-        # => inicijalizujemo `parent` i `subtree_sizes`
-        for node in range(self.m_num_of_nodes):
-            parent.append(node)
-            subtree_sizes.append(0)
-        # parent = [0, 1, 2, ... , numOfNodes-1]
-
-
-        # broj grana je jednak broju cvorova -1
-        # vazno svojstvo msta
+        
+        # Important property of any MST
+        # the number of edges is equal to the number of nodes minus 1
         while e < (self.m_num_of_nodes - 1):
-            # Uzimamo granu sa trenutno najmanjom tezinom
+            # Pick an edge with the minimum weight at the moment
+            # print(str(i) + ": " + str(sorted_graph[i]))
             node1, node2, weight = sorted_graph[i]
             i = i + 1
-
+            print(node1, node1.get_id())
             x = self.find_subtree(parent, node1)
             y = self.find_subtree(parent, node2)
             if x != y:
                 e = e + 1
-                result.append([node, node2, weight])
+                result.append([node1, node2, weight])
                 self.connect_subtrees(parent, subtree_sizes, x, y)
 
         print("Kruskal's MST:")
         for node1, node2, weight in result:
-            print("%d - %d: %d" % (node1, node2, weight)) 
+            print("%s - %s: %d" % (node1, node2, weight)) 
     
     ################################### 
     # Borůvka's MST Algorithm
     ###################################
-    def find_component(self, u):
-        if self.m_components[u] == u:
-            return u
-        return self.find_component(self.m_components[u])
+    def find_component(self, node):
+        if self.m_components[node] == node:
+            return node
+        return self.find_component(self.m_components[node])
 
-    def set_component(self, u):
-        if self.m_components[u] == u:
+    def set_component(self, node):
+        if self.m_components[node] == node:
             return
         else:
             for k in self.m_components.keys():
                 self.m_components[k] = self.find_component(k)
 
+    def union(self, component_size, node1, node2):
+        if component_size[node1] <= component_size[node2]:
+            self.m_components[node1] = node2
+            component_size[node2] += component_size[node1]
 
-
-    def union(self, component_size, u, v):
-        if component_size[u] <= component_size[v]:
-            self.m_components[u] = v
-            component_size[v] += component_size[u]
-
-        elif component_size[u] >= component_size[v]:
-            self.m_components[v] = self.find_component(u)
-            component_size[u] += component_size[v]
+        elif component_size[node1] >= component_size[node2]:
+            self.m_components[node2] = self.find_component(node1)
+            component_size[node1] += component_size[node2]
 
         print(self.m_components)
 
@@ -141,38 +167,38 @@ class Graph:
         while num_of_components > 1:
             for i in range(len(self.m_graph)):
 
-                u = self.m_graph[i][0]
-                v = self.m_graph[i][1]
-                w = self.m_graph[i][2]
+                node1 = self.m_graph[i][0]
+                node2 = self.m_graph[i][1]
+                weight = self.m_graph[i][2]
 
-                self.set_component(u)
-                self.set_component(v)
+                self.set_component(node1)
+                self.set_component(node2)
 
-                u_component = self.m_components[u]
-                v_component = self.m_components[v]
+                node1_component = self.m_components[node1]
+                node2_component = self.m_components[node2]
 
-                if u_component != v_component:
-                    if cheapest_edge[u_component] == -1 or cheapest_edge[u_component][2] > w:
-                        cheapest_edge[u_component] = [u, v, w]
-                    if cheapest_edge[v_component] == -1 or cheapest_edge[v_component][2] > w:
-                        cheapest_edge[v_component] = [u, v, w]
+                if node1_component != node2_component:
+                    if cheapest_edge[node1_component] == -1 or cheapest_edge[node1_component][2] > weight:
+                        cheapest_edge[node1_component] = [node1, node2, weight]
+                    if cheapest_edge[node2_component] == -1 or cheapest_edge[node2_component][2] > weight:
+                        cheapest_edge[node2_component] = [node1, node2, weight]
 
             for vertex in range(self.m_num_of_nodes):
                 if cheapest_edge[vertex] != -1:
-                    u = cheapest_edge[vertex][0]
-                    v = cheapest_edge[vertex][1]
-                    w = cheapest_edge[vertex][2]
+                    node1 = cheapest_edge[vertex][0]
+                    node2 = cheapest_edge[vertex][1]
+                    weight = cheapest_edge[vertex][2]
 
-                    self.set_component(u)
-                    self.set_component(v)
+                    self.set_component(node1)
+                    self.set_component(node2)
 
-                    u_component = self.m_components[u]
-                    v_component = self.m_components[v]
+                    node1_component = self.m_components[node1]
+                    node2_component = self.m_components[node2]
 
-                    if u_component != v_component:
-                        mst_weight += w
-                        self.union(component_size, u_component, v_component)
-                        print("Edge " + str(u) + " - " + str(v) + " with weight " + str(w) + " is included in MST.")
+                    if node1_component != node2_component:
+                        mst_weight += weight
+                        self.union(component_size, node1_component, node2_component)
+                        print("Edge " + str(node1) + " - " + str(node2) + " with weight " + str(weight) + " is included in MST.")
 
                         num_of_components -= 1
 
@@ -186,25 +212,44 @@ class Graph:
 
 
 
-graph = Graph(5)
+# graph = Graph(5)
 
-# graph.add_edge('1', 'A', 25)
+# graph.add_edge('A', 'A', 25)
 # graph.add_edge('A', 'B', 5)
 # graph.add_edge('A', 'C', 3)
 # graph.add_edge('B', 'D', 1)
 # graph.add_edge('B', 'E', 15)
 # graph.add_edge('E', 'C', 7)
 # graph.add_edge('E', 'D', 11)
-graph.add_edge(0, 0, 25)
-graph.add_edge(0, 1, 5)
-graph.add_edge(0, 2, 3)
-graph.add_edge(1, 3, 1)
-graph.add_edge(1, 4, 15)
-graph.add_edge(4, 2, 7)
-graph.add_edge(4, 3, 11)
 
-print(graph)
+# graph.add_edge(0, 0, 25)
+# graph.add_edge(0, 1, 5)
+# graph.add_edge(0, 2, 3)
+# graph.add_edge(1, 3, 1)
+# graph.add_edge(1, 4, 15)
+# graph.add_edge(4, 2, 7)
+# graph.add_edge(4, 3, 11)
 
-graph.boruvkas_mst()
+graph = Graph(9)
+graph.add_edge("A", "B", 4)
+graph.add_edge("A", "C", 7)
+graph.add_edge("B", "C", 11)
+graph.add_edge("B", "D", 9)
+graph.add_edge("B", "F", 20)
+graph.add_edge("C", "F", 1)
+graph.add_edge("D", "G", 6)
+graph.add_edge("D", "E", 2)
+graph.add_edge("E", "G", 10)
+graph.add_edge("E", "I", 15)
+graph.add_edge("E", "H", 5)
+graph.add_edge("E", "F", 1)
+graph.add_edge("F", "H", 3)
+graph.add_edge("G", "I", 5)
+graph.add_edge("H", "I", 12)
+
+
+# print(graph)
+
+graph.kruskals_mst()
 
 
