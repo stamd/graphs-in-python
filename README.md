@@ -1,4 +1,6 @@
-## Graphs in Python Repo Structure
+# Graphs in Python 
+
+## Repo Structure
 - base_classes
     - `node.py`
     - `graph.py`
