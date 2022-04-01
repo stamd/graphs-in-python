@@ -1,6 +1,6 @@
-from edge_list_graph import EdgeListGraph
-from adj_matrix_graph import AdjMatrixGraph
-from adj_list_graph import AdjListGraph
+from advanced_implementations.edge_list_graph import EdgeListGraph
+from advanced_implementations.adj_matrix_graph import AdjMatrixGraph
+from advanced_implementations.adj_list_graph import AdjListGraph
 
 def test_edge_list_graph():
     print("***** Testing Edge List Graph *****")
