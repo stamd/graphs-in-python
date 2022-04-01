@@ -47,6 +47,27 @@ class EdgeListGraph(Graph):
         # but also in the opposite direction
         if not self.m_directed:
             self.m_graph.append([node1, node2, weight])
+
+    ###################################
+    # Load a graph from a list of edges
+    # For example:
+    # edge_list = [
+    #   [0, 0, 25],
+    #   [0, 1, 5],
+    #   [0, 2, 3],
+    #   [1, 3, 1],
+    #   [1, 4, 15],
+    #   [4, 2, 7],
+    #   [4, 3, 11]
+    # ]
+    ###################################
+    def load_from_edge_list(self, edge_list):
+        num_of_edges = len(edge_list)
+        for i in range(num_of_edges):
+            node1 = edge_list[i][0]
+            node2 = edge_list[i][1]
+            weight = edge_list[i][2]
+            self.add_edge(node1, node2, weight)
     
     ###################################
     # Print a graph representation
