@@ -30,7 +30,10 @@
     - 04_dijkstra
         - `dijkstra.py`
     - 05_astar
-        -astar.py
-    - mst_boruvka
-    - mst_kruskal
-    - mst_prim
+        - `astar.py`
+    - 06_mst_boruvka
+        - `boruvka.py`
+    - 07_mst_kruskal
+        - `kruskal.py`
+    - 08_mst_prim
+        - `prim.py`
