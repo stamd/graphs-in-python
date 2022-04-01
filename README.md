@@ -29,7 +29,8 @@
         - `bfs.py`
     - 04_dijkstra
         - `dijkstra.py`
-    - a*
+    - 05_astar
+        -astar.py
     - mst_boruvka
     - mst_kruskal
     - mst_prim
