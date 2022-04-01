@@ -4,10 +4,10 @@ class Node:
         self.m_name = str(name)
 
     def __str__(self):
-        return self.m_name
+        return "node " + self.m_name
 
     def __repr__(self):
-        return self.m_name
+        return "node " + self.m_name
 
 
     def set_id(self, id):
@@ -15,6 +15,9 @@ class Node:
     
     def get_id(self):
         return self.m_id
+    
+    def get_name(self):
+        return self.m_name
 
     def __eq__(self, other):
         return self.m_name == other.m_name

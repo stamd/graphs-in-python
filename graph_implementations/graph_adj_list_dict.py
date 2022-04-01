@@ -1,8 +1,9 @@
-from node import Node
-from graph import Graph
+from base_classes.node import Node
+from base_classes.graph import Graph
 from queue import Queue
 
 class AdjListGraph(Graph):
+    
     ###################################
     # Constructor
     ###################################
@@ -23,7 +24,7 @@ class AdjListGraph(Graph):
         if (node1 not in self.m_nodes):
             node1_id = len(self.m_nodes)
             node1.set_id(node1_id)
-            self.m_nodes.add(node1)
+            self.m_nodes.append(node1)
             self.m_graph[node1_name] = set()
         else:
             node1 = self.get_node_by_name(node1_name)
@@ -31,7 +32,7 @@ class AdjListGraph(Graph):
         if (node2 not in self.m_nodes):
             node2_id = len(self.m_nodes)
             node2.set_id(node2_id)
-            self.m_nodes.add(node2)
+            self.m_nodes.append(node2)
             self.m_graph[node2_name] = set()
         else:
             node2= self.get_node_by_name(node2_name)
@@ -105,14 +106,19 @@ class AdjListGraph(Graph):
     ###################################
     # DFS Search
     ###################################
-    def dfs(self, start, target, path = [], visited = set()):
-        path.append(start)
-        visited.add(start)
-        if start == target:
+    def dfs(self, start_node_name, target_node_name, path = [], visited = set()):
+        start_node = self.get_node_by_name(start_node_name)
+        print("Start node:", start_node)
+        target_node = self.get_node_by_name(target_node_name)
+        print("Target node:", target_node)
+        path.append(start_node)
+        visited.add(start_node)
+        if start_node == target_node:
             return path
-        for (neighbour, weight) in self.m_graph[start]:
+        for (neighbour, weight) in self.m_graph[start_node_name]:
+            print(start_node, self.m_graph[start_node_name])
             if neighbour not in visited:
-                result = self.dfs(neighbour, target, path, visited)
+                result = self.dfs(neighbour.get_name(), target_node_name, path, visited)
                 if result is not None:
                     return result
         path.pop()
@@ -192,8 +198,18 @@ edge_list = [
   [4, 3, 11]
 ]
 # g.load_from_dict(adjacency_list)
-g.load_from_edge_list(edge_list)
-for node in g.get_nodes():
-    print(node)
+# g.load_from_edge_list(edge_list)
+
+# For dfs
+g.add_edge(0, 1)
+g.add_edge(0, 2)
+g.add_edge(1, 3)
+g.add_edge(2, 3)
+g.add_edge(3, 4)
 print(g)
+print(g.dfs(0, 3))
+
+
+
+
 

@@ -1,5 +1,5 @@
-from node import Node
-from graph import Graph
+from base_classes.node import Node
+from base_classes.graph import Graph
 
 class EdgeListGraph(Graph):
     ###################################

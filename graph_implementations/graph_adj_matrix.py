@@ -1,4 +1,7 @@
-class Graph:
+from base_classes.graph import Graph
+
+class AdjMatrixGraph(Graph):
+
     ###################################
     # Constructor
     ###################################
