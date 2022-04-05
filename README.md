@@ -10,7 +10,7 @@
     - `adj_matrix_graph.py`
     - `adj_list_graph.py`
 
-- graphs_in_python_lessions
+- graphs_in_python_lessons
     - 01_representing_graphs_in_code
         - advanced_implementations
             - base_classes
