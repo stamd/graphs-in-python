@@ -20,7 +20,7 @@ class Graph:
 
 def main():
     graph = Graph(5)
-
+    
     graph.add_edge(0, 0, 25)
     graph.add_edge(0, 1, 5)
     graph.add_edge(0, 2, 3)
