@@ -45,7 +45,7 @@ class EdgeListGraph(Graph):
         # If a graph is undirected, add the same edge,
         # but also in the opposite direction
         if not self.m_directed:
-            self.m_graph.append([node1, node2, weight])
+            self.m_graph.append([node2, node1, weight])
     
     ###################################
     # Print a graph representation
