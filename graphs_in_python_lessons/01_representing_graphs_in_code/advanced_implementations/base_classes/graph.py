@@ -5,6 +5,6 @@ class Graph:
 
     def __str__(self):
         return
-    
+
     def add_edge(self, node1, node2, weight):
         return

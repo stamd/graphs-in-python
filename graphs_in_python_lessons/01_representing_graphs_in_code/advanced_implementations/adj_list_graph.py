@@ -2,7 +2,7 @@ from base_classes.node import Node
 from base_classes.graph import Graph
 
 class AdjListGraph(Graph):
-    
+
     ###################################
     # Constructor
     ###################################
@@ -12,10 +12,10 @@ class AdjListGraph(Graph):
 
         self.m_directed = directed
 
-        self.m_graph = {}    
+        self.m_graph = {}
 
     ###################################
-    # Add edge to a graph   
+    # Add edge to a graph
     ###################################
     def add_edge(self, node1_name, node2_name, weight=1):
         node1 = Node(node1_name)
@@ -28,7 +28,7 @@ class AdjListGraph(Graph):
             self.m_graph[node1_name] = set()
         else:
             node1 = self.get_node_by_name(node1_name)
-        
+
         if (node2 not in self.m_nodes):
             node2_id = len(self.m_nodes)
             node2.set_id(node2_id)
@@ -49,7 +49,7 @@ class AdjListGraph(Graph):
         search_node = Node(name)
         for node in self.m_nodes:
             if node == search_node:
-                return node 
+                return node
         return None
 
     ###################################
@@ -68,7 +68,7 @@ class AdjListGraph(Graph):
         for node1 in dict.keys():
             for (node2, weight) in dict[node1]:
                 self.add_edge(node1, node2, weight)
-    
+
     ###################################
     # Load a graph from a list of edges
     # For example:

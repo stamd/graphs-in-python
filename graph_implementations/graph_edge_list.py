@@ -24,14 +24,14 @@ class EdgeListGraph(Graph):
     ###################################
     def add_edge(self, node1_name, node2_name, weight=1):
         node1 = Node(node1_name)
-        node2 = Node(node2_name)       
+        node2 = Node(node2_name)
         if (node1 not in self.m_nodes):
             node1_id = len(self.m_nodes)
             node1.set_id(node1_id)
             self.m_nodes.append(node1)
         else:
             node1 = self.get_node_by_name(node1_name)
-        
+
         if (node2 not in self.m_nodes):
             node2_id = len(self.m_nodes)
             node2.set_id(node2_id)
@@ -41,12 +41,12 @@ class EdgeListGraph(Graph):
 
         # Add the edge from node1 to node2
         self.m_graph.append([node1, node2, weight])
-        
+
         # If a graph is undirected, add the same edge,
         # but also in the opposite direction
         if not self.m_directed:
             self.m_graph.append([node2, node1, weight])
-    
+
     ###################################
     # Print a graph representation
     ###################################
@@ -56,7 +56,7 @@ class EdgeListGraph(Graph):
         for i in range(num_of_edges):
             out += "edge " + str(i+1) + ": " + str(self.m_graph[i]) + "\n"
         return out
-    
+
     ###################################
     # Find node in a graph using its name
     ###################################
@@ -64,10 +64,10 @@ class EdgeListGraph(Graph):
         search_node = Node(name)
         for node in self.m_nodes:
             if node == search_node:
-                return node 
+                return node
         return None
-        
-    ################################### 
+
+    ###################################
     # Kruskal's MST Algorithm
     ###################################
     # Finds the root node of a subtree containing node `node`
@@ -108,7 +108,7 @@ class EdgeListGraph(Graph):
 
         # Sort edges by weight
         sorted_graph = sorted(self.m_graph, key=lambda item: item[2])
-        
+
         # Important property of any MST
         # the number of edges is equal to the number of nodes minus 1
         while e < (self.m_num_of_nodes - 1):
@@ -124,9 +124,9 @@ class EdgeListGraph(Graph):
 
         print("Kruskal's MST:")
         for node1, node2, weight in result:
-            print("%s - %s: %d" % (node1, node2, weight)) 
-    
-    ################################### 
+            print("%s - %s: %d" % (node1, node2, weight))
+
+    ###################################
     # Borůvka's MST Algorithm
     ###################################
     def find_component(self, node):

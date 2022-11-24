@@ -3,21 +3,21 @@ class Graph:
     def __init__(self, num_of_nodes, directed=True):
         self.m_num_of_nodes = num_of_nodes
         self.m_nodes = range(self.m_num_of_nodes)
-		
+
         # Directed or Undirected
         self.m_directed = directed
-		
+
         # Graph representation - Adjacency list
         # We use a dictionary to implement an adjacency list
-        self.m_adj_list = {node: set() for node in self.m_nodes}      
-	
+        self.m_adj_list = {node: set() for node in self.m_nodes}
+
     # Add edge to the graph
     def add_edge(self, node1, node2, weight=1):
         self.m_adj_list[node1].add((node2, weight))
 
         if not self.m_directed:
             self.m_adj_list[node2].add((node1, weight))
-    
+
     # Print the graph representation
     def print_adj_list(self):
         for key in self.m_adj_list.keys():
@@ -34,7 +34,7 @@ class Graph:
                 if result is not None:
                     return result
         path.pop()
-        return None   
+        return None
 
 def main():
     graph = Graph(5, directed=False)

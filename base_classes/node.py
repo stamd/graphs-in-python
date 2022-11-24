@@ -12,10 +12,10 @@ class Node:
 
     def set_id(self, id):
         self.m_id = id
-    
+
     def get_id(self):
         return self.m_id
-    
+
     def get_name(self):
         return self.m_name
 

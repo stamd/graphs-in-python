@@ -5,7 +5,7 @@ class Graph:
         self.v = num_of_vertices
         self.edges = [[-1 for i in range(num_of_vertices)] for j in range(num_of_vertices)]
         self.visited = []
-    
+
     def add_edge(self, u, v, weight):
         self.edges[u][v] = weight
         self.edges[v][u] = weight
@@ -13,14 +13,14 @@ class Graph:
     def dijkstra(self, start_vertex):
         D = {v:float('inf') for v in range(self.v)}
         D[start_vertex] = 0
-    
+
         pq = PriorityQueue()
         pq.put((0, start_vertex))
-    
+
         while not pq.empty():
             (dist, current_vertex) = pq.get()
             self.visited.append(current_vertex)
-    
+
             for neighbor in range(self.v):
                 if self.edges[current_vertex][neighbor] != -1:
                     distance = self.edges[current_vertex][neighbor]
@@ -32,7 +32,7 @@ class Graph:
                             D[neighbor] = new_cost
         return D
 
-    
+
 def main():
     g = Graph(9)
     g.add_edge(0, 1, 4)
@@ -49,7 +49,7 @@ def main():
     g.add_edge(4, 8, 5)
     g.add_edge(5, 8, 12)
     g.add_edge(6, 7, 1)
-    g.add_edge(7, 8, 3) 
+    g.add_edge(7, 8, 3)
 
     D = g.dijkstra(0)
     print(D)

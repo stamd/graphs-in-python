@@ -11,9 +11,9 @@ class AdjMatrixGraph(Graph):
 
         # A representation of a graph
         # i.e. adjacency matrix
-        self.m_graph = [[0 for column in range(num_of_nodes)] 
+        self.m_graph = [[0 for column in range(num_of_nodes)]
                             for row in range(num_of_nodes)]
-    
+
     ###################################
     # Assert node names
     ###################################

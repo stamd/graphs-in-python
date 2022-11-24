@@ -1,4 +1,4 @@
-# Graphs in Python 
+# Graphs in Python
 ![graphs-in-python-course](https://s3.stackabuse.com/media/courses/graphs-in-python-theory-and-implementation-banner.jpg)
 
 ## Repo Structure

@@ -5,7 +5,7 @@ class Graph:
 
         # Initialize the adjacency matrix
         # Create a matrix with `num_of_nodes` rows and columns
-        self.m_adj_matrix = [[0 for column in range(num_of_nodes)] 
+        self.m_adj_matrix = [[0 for column in range(num_of_nodes)]
                             for row in range(num_of_nodes)]
 
     def add_edge(self, node1, node2, weight=1):
@@ -17,7 +17,7 @@ class Graph:
     def print_adj_matrix(self):
         for i in range(self.m_num_of_nodes):
             print(self.m_adj_matrix[i])
-            
+
 def main():
     graph = Graph(5)
 

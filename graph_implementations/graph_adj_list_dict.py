@@ -3,7 +3,7 @@ from base_classes.graph import Graph
 from queue import Queue
 
 class AdjListGraph(Graph):
-    
+
     ###################################
     # Constructor
     ###################################
@@ -13,10 +13,10 @@ class AdjListGraph(Graph):
 
         self.m_directed = directed
 
-        self.m_graph = {}    
+        self.m_graph = {}
 
     ###################################
-    # Add edge to a graph   
+    # Add edge to a graph
     ###################################
     def add_edge(self, node1_name, node2_name, weight=1):
         node1 = Node(node1_name)
@@ -28,7 +28,7 @@ class AdjListGraph(Graph):
             self.m_graph[node1_name] = set()
         else:
             node1 = self.get_node_by_name(node1_name)
-        
+
         if (node2 not in self.m_nodes):
             node2_id = len(self.m_nodes)
             node2.set_id(node2_id)
@@ -49,7 +49,7 @@ class AdjListGraph(Graph):
         search_node = Node(name)
         for node in self.m_nodes:
             if node == search_node:
-                return node 
+                return node
         return None
 
     ###################################
@@ -68,7 +68,7 @@ class AdjListGraph(Graph):
         for node1 in dict.keys():
             for (node2, weight) in dict[node1]:
                 self.add_edge(node1, node2, weight)
-    
+
     ###################################
     # Load a graph from a list of edges
     # For example:
@@ -102,7 +102,7 @@ class AdjListGraph(Graph):
 
     def get_nodes(self):
         return self.m_nodes
-    
+
     ###################################
     # DFS Search
     ###################################
@@ -122,7 +122,7 @@ class AdjListGraph(Graph):
                 if result is not None:
                     return result
         path.pop()
-        return None  
+        return None
 
     ###################################
     # BFS Search
@@ -135,7 +135,7 @@ class AdjListGraph(Graph):
         # Add the start_node to the queue and visited list
         queue.put(start_node)
         visited.add(start_node)
-        
+
         # start_node has not parents
         parent = dict()
         parent[start_node] = None
@@ -153,17 +153,17 @@ class AdjListGraph(Graph):
                     queue.put(next_node)
                     parent[next_node] = current_node
                     visited.add(next_node)
-                    
+
         # Path reconstruction
         path = []
         if path_found:
             path.append(target_node)
             while parent[target_node] is not None:
-                path.append(parent[target_node]) 
+                path.append(parent[target_node])
                 target_node = parent[target_node]
             path.reverse()
-        return path    
-    
+        return path
+
     ###################################
     # BFS Traversal
     ###################################
@@ -180,7 +180,7 @@ class AdjListGraph(Graph):
             for (next_node, weight) in self.m_graph[current_node]:
                 if next_node not in visited:
                     queue.put(next_node)
-                    visited.add(next_node)  
+                    visited.add(next_node)
 
 g = AdjListGraph(5)
 adjacency_list = {
